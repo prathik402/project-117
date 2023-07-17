@@ -3,7 +3,12 @@ $(document).ready(function(){
     console.log('Ready')
 
     //  Fetch the current date and update it in the DOM
-
+    var date = new Date()
+    let display_date = "Date:" + date.toLocaleDateString()
+    
+    $(document).ready(function(){
+        $("#display_date").html(display_date)
+    })
 
 
 
@@ -22,10 +27,12 @@ $(document).ready(function(){
         $.ajax({
 
             //  type of web request
-            type : '',
-
+            type : 'POST',
+            url:"/predict-emotion",
+    
             //  Data to be sent in JSON format
             data : JSON.stringify(),
+            
 
             //  type of response expected is json
             dataType : 'json',
@@ -37,9 +44,17 @@ $(document).ready(function(){
             success : function(result){
 
                 // extract prediction and emoticon url from result
-
+                predicted_emotion = result.data.predicted_emotion
+                emo_url = result.data.predicted_emotion_img_url
 
                 //  update the DOM elements
+                $("prediction").html(predicted_emotion)
+                $("prediction").css("display","block");
+
+
+                $("#emo_img_url").attr("src",emo_url);
+                $("#emo_img_url").css("display","block");
+                
 
 
                 //  show them
